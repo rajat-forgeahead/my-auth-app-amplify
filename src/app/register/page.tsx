@@ -128,24 +128,30 @@ const handleSubmit = async (e: any) => {
   }
 
   try {
-    const res = await axios.post("/api/register", {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      bio: bio.value,
-      phone_number: phone_number.value,
-      address: address.value,
-      country: country.value,
-      city: city.value,
-      state: state.value,
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        bio: bio.value,
+        phone_number: phone_number.value,
+        address: address.value,
+        country: country.value,
+        city: city.value,
+        state: state.value,
+      }),
     });
-
-    if (res.status === 400) {
+  
+    if (response.status === 400) {
       setError("This email is already registered");
-    } else if (res.status === 200) {
+    } else if (response.status === 200) {
       setError("");
       const userData = {
-        name:name.value,
+        name: name.value,
         email: email.value,
         password: password.value,
         bio: bio.value,
@@ -163,6 +169,7 @@ const handleSubmit = async (e: any) => {
     setError("Error, try again");
     console.error(error);
   }
+  
 };
 
   if (sessionStatus === "loading") {
